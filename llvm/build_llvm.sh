@@ -55,5 +55,5 @@ if [[ -f ${BUILT_ENV} ]]; then
     rm -rf ${BUILT_ENV}
 fi
 echo "" > ${BUILT_ENV}
-echo "export LD_LIBRARY_PATH=${BUILT_LLVM}/lib:${LD_LIBRARY_PATH}" >> ${BUILT_ENV}
-echo "export PATH=${BUILT_LLVM}/bin:${PATH}" >> ${BUILT_ENV}
+echo "export LD_LIBRARY_PATH=${BUILT_LLVM}/lib:\${LD_LIBRARY_PATH}" >> ${BUILT_ENV}
+echo "export PATH=${BUILT_LLVM}/bin:\${PATH}" >> ${BUILT_ENV}
