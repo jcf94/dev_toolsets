@@ -106,7 +106,7 @@ pushd ${GCC_DIR}
 LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j && make install
 popd
 
-# Export env source file
+####################################### Export env source file
 if [[ -f ${BUILT_ENV} ]]; then
     rm -rf ${BUILT_ENV}
 fi
@@ -116,3 +116,5 @@ echo "export CPLUS_INCLUDE_PATH=${BUILT_GCC}/include:\${CPLUS_INCLUDE_PATH}" >> 
 echo "export LIBRARY_PATH=${BUILT_GCC}/lib:${BUILT_GCC}/lib64:\${LIBRARY_PATH}" >> ${BUILT_ENV}
 echo "export LD_LIBRARY_PATH=${BUILT_GCC}/lib:${BUILT_GCC}/lib64:\${LD_LIBRARY_PATH}" >> ${BUILT_ENV}
 echo "export PATH=${BUILT_GCC}/bin:\${PATH}" >> ${BUILT_ENV}
+echo "export CC=gcc" >> ${BUILT_ENV}
+echo "export CXX=g++" >> ${BUILT_ENV}
