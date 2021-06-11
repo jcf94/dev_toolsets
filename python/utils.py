@@ -16,8 +16,14 @@ class PropagatingThread(threading.Thread):
         for thread in threads:
             res.append(thread.join())
     """
-    def run(self):
+    def __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None):
+        super(PropagatingThread, self).__init__(
+            group=group, target=target, name=name, args=args, kwargs=kwargs, daemon=daemon,
+        )
         self.exc = None
+        self.ret = None
+
+    def run(self):
         try:
             self.ret = self._target(*self._args, **self._kwargs)
         except BaseException as e:
