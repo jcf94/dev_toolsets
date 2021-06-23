@@ -2,19 +2,23 @@
 
 set -xe
 
+FILEPATH=$(cd "$(dirname "$0")"; pwd)
+
 ####################################### Version Def & Path Def
 
 LLVM_PROJECT_DIR="llvm-project-12.0.0.src"
 LLVM_PROJECT_TAR="${LLVM_PROJECT_DIR}.tar.xz"
 LLVM_PROJECT_URL="https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/${LLVM_PROJECT_TAR}"
 
-BUILT_ROOT="`pwd`/built"
+BUILT_ROOT="${FILEPATH}/built"
 LLVM_ENABLE_PROJECTS="clang"
 
 BUILT_LLVM="${BUILT_ROOT}/llvm"
 BUILT_ENV="${BUILT_ROOT}/env.sh"
 
 ####################################### Prepare src files
+
+pushd ${FILEPATH}
 
 echo "Download LLVM..."
 if [[ ! -f ${LLVM_PROJECT_TAR} ]]; then
@@ -59,4 +63,8 @@ fi
 echo "" > ${BUILT_ENV}
 echo "export LD_LIBRARY_PATH=${BUILT_LLVM}/lib:\${LD_LIBRARY_PATH}" >> ${BUILT_ENV}
 echo "export PATH=${BUILT_LLVM}/bin:\${PATH}" >> ${BUILT_ENV}
+
+popd
+
+echo "Build success!"
 

@@ -2,6 +2,8 @@
 
 set -xe
 
+FILEPATH=$(cd "$(dirname "$0")"; pwd) 
+
 ####################################### Version Def & Path Def
 
 GMP_DIR="gmp-6.2.1"
@@ -9,7 +11,7 @@ MPFR_DIR="mpfr-4.1.0"
 MPC_DIR="mpc-1.2.1"
 GCC_DIR="gcc-7.5.0"
 
-BUILT_ROOT="`pwd`/built"
+BUILT_ROOT="${FILEPATH}/built"
 GCC_TARGET="c,c++,fortran"
 # GCC_TARGET="c,c++,fortran,go"
 
@@ -32,6 +34,8 @@ BUILT_GCC="${BUILT_ROOT}/gcc"
 BUILT_ENV="${BUILT_ROOT}/env.sh"
 
 ####################################### Prepare src files
+
+pushd ${FILEPATH}
 
 echo "Download GMP..."
 if [[ ! -f ${GMP_TAR} ]]; then
@@ -120,3 +124,8 @@ echo "export LD_LIBRARY_PATH=${BUILT_GCC}/lib:${BUILT_GCC}/lib64:\${LD_LIBRARY_P
 echo "export PATH=${BUILT_GCC}/bin:\${PATH}" >> ${BUILT_ENV}
 echo "export CC=gcc" >> ${BUILT_ENV}
 echo "export CXX=g++" >> ${BUILT_ENV}
+
+popd
+
+echo "Build success!"
+
