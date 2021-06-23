@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -xe
+
 ####################################### Version Def & Path Def
 
 GMP_DIR="gmp-6.2.1"

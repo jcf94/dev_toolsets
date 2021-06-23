@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -xe
+
 ####################################### Version Def & Path Def
 
 LLVM_PROJECT_DIR="llvm-project-12.0.0.src"
@@ -44,7 +46,7 @@ if [[ ! -d ${LLVM_BUILD_DIR} ]]; then
 fi
 
 pushd ${LLVM_BUILD_DIR}
-cmake -DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS} -DCMAKE_BUILD_TYPE=Release .. && make -j && cmake -DCMAKE_INSTALL_PREFIX=${BUILT_LLVM} -P cmake_install.cmake
+CC=gcc CXX=g++ cmake -DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS} -DCMAKE_BUILD_TYPE=Release .. && make -j && cmake -DCMAKE_INSTALL_PREFIX=${BUILT_LLVM} -P cmake_install.cmake
 
 popd
 popd
@@ -57,3 +59,4 @@ fi
 echo "" > ${BUILT_ENV}
 echo "export LD_LIBRARY_PATH=${BUILT_LLVM}/lib:\${LD_LIBRARY_PATH}" >> ${BUILT_ENV}
 echo "export PATH=${BUILT_LLVM}/bin:\${PATH}" >> ${BUILT_ENV}
+

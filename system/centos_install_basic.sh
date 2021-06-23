@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -xe
+
 # Install basic dev tools
 yum groupinstall "Development Tools" -y
 
