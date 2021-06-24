@@ -19,4 +19,3 @@ TOOL_LIST=(
 for tool in ${TOOL_LIST[*]}; do
     yum install ${tool} -y
     done
-

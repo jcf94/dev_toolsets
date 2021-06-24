@@ -17,4 +17,3 @@ done
 brew update-reset
 
 echo "Homebrew source update success!"
-

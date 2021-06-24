@@ -2,7 +2,7 @@
 
 set -xe
 
-FILEPATH=$(cd "$(dirname "$0")"; pwd) 
+FILEPATH=$(cd "$(dirname "$0")"; pwd)
 
 ####################################### Version Def & Path Def
 
@@ -128,4 +128,3 @@ echo "export CXX=g++" >> ${BUILT_ENV}
 popd
 
 echo "Build success!"
-

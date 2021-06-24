@@ -10,4 +10,3 @@ else
 
     echo "Install success!"
 fi
-

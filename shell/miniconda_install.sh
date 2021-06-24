@@ -20,4 +20,3 @@ chmod +x ${MINICONDA_SH}
 popd
 
 echo "Install success!"
-
