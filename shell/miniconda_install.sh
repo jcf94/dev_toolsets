@@ -15,8 +15,9 @@ fi
 
 chmod +x ${MINICONDA_SH}
 
-./${MINICONDA_SH} -b -f -p `pwd`/miniconda
+./${MINICONDA_SH} -b -f -p "${FILEPATH}/miniconda"
 
 popd
 
-echo "Install success!"
+echo "Install Miniconda success!"
+

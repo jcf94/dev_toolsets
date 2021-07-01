@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe
+set -ex
 
 FILEPATH=$(cd "$(dirname "$0")"; pwd)
 

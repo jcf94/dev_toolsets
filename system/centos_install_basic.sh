@@ -2,6 +2,11 @@
 
 set -xe
 
+if [[ `lsb_release -i -s` != "CentOS" ]]; then
+    echo "Currently not in Centos. exit."
+    exit -1
+fi
+
 # Install basic dev tools
 yum groupinstall "Development Tools" -y
 
