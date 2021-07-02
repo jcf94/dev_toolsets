@@ -40,7 +40,7 @@ conda install cmake -y
 
 echo "Process GCC ..."
 
-GCC_STATUS="Built"
+GCC_STATUS="Already Built"
 GCC_START=`date +%s`
 
 if [[ ! -f ${GCC_ENV} ]]; then
@@ -58,7 +58,7 @@ source ${GCC_ENV}
 
 echo "Process LLVM ..."
 
-LLVM_STATUS="Built"
+LLVM_STATUS="Already Built"
 LLVM_START=`date +%s`
 
 if [[ ! -f ${LLVM_ENV} ]]; then
@@ -72,7 +72,9 @@ LLVM_END=`date +%s`
 
 # Print Results
 
-echo "Conda\t[${CONDA_STATUS}]\tCosts: $((CONDA_END-CONDA_START)) s"
-echo "GCC\t[${GCC_STATUS}]\tCosts: $((GCC_END-GCC_START)) s"
-echo "LLVM\t[${LLVM_STATUS}\tCosts: $((LLVM_END-LLVM_START)) s"
+set +x
+
+echo -e "Conda\t[${CONDA_STATUS}]\tCosts: $((CONDA_END-CONDA_START)) s"
+echo -e "GCC\t[${GCC_STATUS}]\tCosts: $((GCC_END-GCC_START)) s"
+echo -e "LLVM\t[${LLVM_STATUS}]\tCosts: $((LLVM_END-LLVM_START)) s"
 

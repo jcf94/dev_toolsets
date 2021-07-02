@@ -33,6 +33,9 @@ BUILT_MPC="${BUILT_ROOT}/mpc"
 BUILT_GCC="${BUILT_ROOT}/gcc"
 BUILT_ENV="${BUILT_ROOT}/env.sh"
 
+NUM_CORES=`grep -c ^processor /proc/cpuinfo`
+NUM_CORES=$((NUM_CORES / 2))
+
 ####################################### Prepare src files
 
 pushd ${GCC_ROOT_PATH}
@@ -88,7 +91,7 @@ EXTRA_LIB_PATH=""
 # Build GMP
 pushd ${GMP_DIR}
 ./configure --prefix=${BUILT_GMP}
-make -j
+make -j ${NUM_CORES}
 make install
 popd
 EXTRA_LIB_PATH+="${BUILT_GMP}/lib:"
@@ -96,7 +99,7 @@ EXTRA_LIB_PATH+="${BUILT_GMP}/lib:"
 # Build MPFR
 pushd ${MPFR_DIR}
 ./configure --prefix=${BUILT_MPFR} --with-gmp=${BUILT_GMP}
-LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j
+LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j ${NUM_CORES}
 make install
 popd
 EXTRA_LIB_PATH+="${BUILT_MPFR}/lib:"
@@ -104,7 +107,7 @@ EXTRA_LIB_PATH+="${BUILT_MPFR}/lib:"
 # Build MPC
 pushd ${MPC_DIR}
 ./configure --prefix=${BUILT_MPC} --with-gmp=${BUILT_GMP} --with-mpfr=${BUILT_MPFR}
-LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j
+LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j ${NUM_CORES}
 make install
 popd
 EXTRA_LIB_PATH+="${BUILT_MPC}/lib:"
@@ -112,7 +115,7 @@ EXTRA_LIB_PATH+="${BUILT_MPC}/lib:"
 # Build GCC
 pushd ${GCC_DIR}
 ./configure --prefix=${BUILT_GCC} --with-gmp=${BUILT_GMP} --with-mpfr=${BUILT_MPFR} --with-mpc=${BUILT_MPC} --disable-multilib --enable-languages=${GCC_TARGET}
-LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j
+LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j ${NUM_CORES}
 make install
 popd
 

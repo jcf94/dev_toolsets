@@ -16,6 +16,9 @@ LLVM_ENABLE_PROJECTS="clang"
 BUILT_LLVM="${BUILT_ROOT}/llvm"
 BUILT_ENV="${BUILT_ROOT}/env.sh"
 
+NUM_CORES=`grep -c ^processor /proc/cpuinfo`
+NUM_CORES=$((NUM_CORES / 2))
+
 ####################################### Prepare src files
 
 pushd ${LLVM_ROOT_PATH}
@@ -55,7 +58,7 @@ pushd ${LLVM_BUILD_DIR}
 
 CC=gcc CXX=g++ cmake -DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS} -DCMAKE_BUILD_TYPE=Release ..
 
-make -j
+make -j ${NUM_CORES}
 
 cmake -DCMAKE_INSTALL_PREFIX=${BUILT_LLVM} -P cmake_install.cmake
 
