@@ -9,7 +9,7 @@ GCC_ROOT_PATH=$(cd "$(dirname "$0")"; pwd)
 GMP_DIR="gmp-6.2.1"
 MPFR_DIR="mpfr-4.1.0"
 MPC_DIR="mpc-1.2.1"
-GCC_DIR="gcc-8.1.0"
+GCC_DIR="gcc-7.4.0"
 
 BUILT_ROOT="${GCC_ROOT_PATH}/built"
 GCC_TARGET="c,c++,fortran"
@@ -88,28 +88,32 @@ EXTRA_LIB_PATH=""
 # Build GMP
 pushd ${GMP_DIR}
 ./configure --prefix=${BUILT_GMP}
-make -j && make install
+make -j
+make install
 popd
 EXTRA_LIB_PATH+="${BUILT_GMP}/lib:"
 
 # Build MPFR
 pushd ${MPFR_DIR}
 ./configure --prefix=${BUILT_MPFR} --with-gmp=${BUILT_GMP}
-LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j && make install
+LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j
+make install
 popd
 EXTRA_LIB_PATH+="${BUILT_MPFR}/lib:"
 
 # Build MPC
 pushd ${MPC_DIR}
 ./configure --prefix=${BUILT_MPC} --with-gmp=${BUILT_GMP} --with-mpfr=${BUILT_MPFR}
-LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j && make install
+LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j
+make install
 popd
 EXTRA_LIB_PATH+="${BUILT_MPC}/lib:"
 
 # Build GCC
 pushd ${GCC_DIR}
 ./configure --prefix=${BUILT_GCC} --with-gmp=${BUILT_GMP} --with-mpfr=${BUILT_MPFR} --with-mpc=${BUILT_MPC} --disable-multilib --enable-languages=${GCC_TARGET}
-LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j && make install
+LD_LIBRARY_PATH=${EXTRA_LIB_PATH}:${LD_LIBRARY_PATH} LD_RUN_PATH=${EXTRA_LIB_PATH}:${LD_RUN_PATH} make -j
+make install
 popd
 
 ####################################### Export env source file
