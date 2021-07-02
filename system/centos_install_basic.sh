@@ -19,6 +19,7 @@ TOOL_LIST=(
     "git"
     "zsh"
     "cmake"
+    "ncdu"
 )
 
 for tool in ${TOOL_LIST[*]}; do

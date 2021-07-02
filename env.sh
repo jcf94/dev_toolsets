@@ -4,7 +4,7 @@ set -e
 
 FILEPATH=$(cd "$(dirname "$0")"; pwd)
 
-CONDA_ENV="${FILEPATH}/shell/miniconda/bin/activate"
+CONDA_ENV="${FILEPATH}/conda/miniconda/env.sh"
 GCC_ENV="${FILEPATH}/gcc/built/env.sh"
 LLVM_ENV="${FILEPATH}/llvm/built/env.sh"
 
