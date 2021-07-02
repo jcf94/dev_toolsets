@@ -1,8 +1,8 @@
 #!/bin/bash
 
-set -ex
+set -xe
 
-FILEPATH=$(cd "$(dirname "$0")"; pwd)
+LLVM_ROOT_PATH=$(cd "$(dirname "$0")"; pwd)
 
 ####################################### Version Def & Path Def
 
@@ -10,7 +10,7 @@ LLVM_PROJECT_DIR="llvm-project-12.0.0.src"
 LLVM_PROJECT_TAR="${LLVM_PROJECT_DIR}.tar.xz"
 LLVM_PROJECT_URL="https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/${LLVM_PROJECT_TAR}"
 
-BUILT_ROOT="${FILEPATH}/built"
+BUILT_ROOT="${LLVM_ROOT_PATH}/built"
 LLVM_ENABLE_PROJECTS="clang"
 
 BUILT_LLVM="${BUILT_ROOT}/llvm"
@@ -18,7 +18,7 @@ BUILT_ENV="${BUILT_ROOT}/env.sh"
 
 ####################################### Prepare src files
 
-pushd ${FILEPATH}
+pushd ${LLVM_ROOT_PATH}
 
 echo "Download LLVM..."
 if [[ ! -f ${LLVM_PROJECT_TAR} ]]; then
@@ -41,16 +41,23 @@ fi
 
 # Build LLVM
 pushd ${LLVM_PROJECT_DIR}
+
 LLVM_DIR="`pwd`/llvm"
 
 pushd ${LLVM_DIR}
+
 LLVM_BUILD_DIR="${LLVM_DIR}/build"
 if [[ ! -d ${LLVM_BUILD_DIR} ]]; then
     mkdir ${LLVM_BUILD_DIR}
 fi
 
 pushd ${LLVM_BUILD_DIR}
-CC=gcc CXX=g++ cmake -DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS} -DCMAKE_BUILD_TYPE=Release .. && make -j && cmake -DCMAKE_INSTALL_PREFIX=${BUILT_LLVM} -P cmake_install.cmake
+
+CC=gcc CXX=g++ cmake -DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS} -DCMAKE_BUILD_TYPE=Release ..
+
+make -j
+
+cmake -DCMAKE_INSTALL_PREFIX=${BUILT_LLVM} -P cmake_install.cmake
 
 popd
 popd

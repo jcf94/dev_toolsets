@@ -2,14 +2,38 @@
 
 FILEPATH=$(cd "$(dirname "$0")"; pwd)
 
-list=(
-    "${FILEPATH}/built"
-    "${FILEPATH}/*.src"
-    "${FILEPATH}/*.tar.xz"
-)
+LIST=("${FILEPATH}/built")
 
-for i in ${list[*]}; do
-    echo "Cleaning ${i} ..."
-    rm -rf ${i}
+function usage() {
+    echo "./clean.sh    [-h]    Help"
+    echo "              [-a]    Clean all extra files"
+}
+
+while getopts "ha" arg
+do
+    case "${arg}" in
+        a)
+            LIST=(
+                "${FILEPATH}/built"
+                "${FILEPATH}/*.src"
+                "${FILEPATH}/*.tar.xz"
+            )
+            ;;
+        h)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "Internal error!"
+            exit 1
+            ;;
+    esac
 done
 
+
+for i in ${LIST[*]}; do
+    if [[ -d ${i} || -f ${i} ]]; then
+        echo "Cleaning ${i} ..."
+        rm -rf ${i}
+    fi
+done

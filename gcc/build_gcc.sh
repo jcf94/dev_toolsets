@@ -2,7 +2,7 @@
 
 set -xe
 
-FILEPATH=$(cd "$(dirname "$0")"; pwd)
+GCC_ROOT_PATH=$(cd "$(dirname "$0")"; pwd)
 
 ####################################### Version Def & Path Def
 
@@ -11,7 +11,7 @@ MPFR_DIR="mpfr-4.1.0"
 MPC_DIR="mpc-1.2.1"
 GCC_DIR="gcc-7.5.0"
 
-BUILT_ROOT="${FILEPATH}/built"
+BUILT_ROOT="${GCC_ROOT_PATH}/built"
 GCC_TARGET="c,c++,fortran"
 # GCC_TARGET="c,c++,fortran,go"
 
@@ -35,7 +35,7 @@ BUILT_ENV="${BUILT_ROOT}/env.sh"
 
 ####################################### Prepare src files
 
-pushd ${FILEPATH}
+pushd ${GCC_ROOT_PATH}
 
 echo "Download GMP..."
 if [[ ! -f ${GMP_TAR} ]]; then
