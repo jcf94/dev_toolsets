@@ -9,7 +9,7 @@ GCC_ROOT_PATH=$(cd "$(dirname "$0")"; pwd)
 GMP_DIR="gmp-6.2.1"
 MPFR_DIR="mpfr-4.1.0"
 MPC_DIR="mpc-1.2.1"
-GCC_DIR="gcc-7.5.0"
+GCC_DIR="gcc-8.1.0"
 
 BUILT_ROOT="${GCC_ROOT_PATH}/built"
 GCC_TARGET="c,c++,fortran"
