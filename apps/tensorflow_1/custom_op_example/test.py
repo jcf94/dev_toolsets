@@ -10,12 +10,13 @@ tf1_root = os.path.normpath(os.path.join(Path(__file__).absolute(), "..", ".."))
 sys.path.append(tf1_root)
 
 import graphdef_builder as gd_b
+import tf_utils as tf_u
 
 
 # Numpy reference
-data_a = np.random.random([4, 5])
-data_b = np.random.random([5, 6])
-data_c = np.random.random([6])
+data_a = np.random.random([4, 5]).astype(np.float32)
+data_b = np.random.random([5, 6]).astype(np.float32)
+data_c = np.random.random([6]).astype(np.float32)
 ref_d = np.dot(data_a, data_b) + data_c
 
 # Original network def
@@ -27,6 +28,7 @@ with graph.as_default():
     d = tf.matmul(a, b) + c
     with tf.compat.v1.Session(graph=graph) as sess:
         out_d = sess.run(d, {"a:0": data_a, "b:0": data_b, "c:0": data_c})
+        tf_u.save_graph_def(tf.get_default_graph(), "origraph.pb")
 
 np.testing.assert_allclose(out_d, ref_d, rtol=1e-6)
 

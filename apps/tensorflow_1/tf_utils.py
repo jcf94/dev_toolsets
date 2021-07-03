@@ -1,7 +1,43 @@
-from typing import Any, Dict, List, Tuple
+import os
+from typing import Any, Dict, List, Tuple, Union
 
 import tensorflow as tf
 import numpy as np
+
+################ Model save ################
+
+
+def save_graph_def(
+    graph_def: Union[tf.Graph, tf.compat.v1.GraphDef],
+    name: str,
+    logdir: str = ".",
+    overwrite: bool = False,
+):
+    """
+    Parameters
+    ----------
+    graph_def : Union[tf.Graph, tf.compat.v1.GraphDef]
+
+    name : str
+
+    logdir : Optional[str] = "."
+
+    overwrite : Optional[bool] = False
+    """
+    target = os.path.join(logdir, name)
+    if os.path.isfile(target):
+        if overwrite:
+            os.remove(target)
+        else:
+            print("Skip saving for the %s exists." % (target))
+            return
+
+    as_text = False
+    if name.endswith(".pbtxt"):
+        as_text = True
+
+    tf.compat.v1.io.write_graph(graph_def, logdir, name, as_text)
+
 
 ################ Model import ################
 
