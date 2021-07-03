@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 FILEPATH=$(cd "$(dirname "$0")"; pwd)
 
 CONDA_ENV="${FILEPATH}/conda/miniconda/env.sh"
@@ -34,4 +32,3 @@ if [[ -f ${LLVM_ENV} ]]; then
 else
     echo "LLVM env  [not found]."
 fi
-

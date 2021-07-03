@@ -4,7 +4,11 @@ Some dev tool scripts.
 
 ## Build dev tools
 
-Currently, this will install a miniconda environment, build gcc and llvm from source.
+Currently, this will:
+
+- Install *miniconda*
+- Build *gcc*
+- Build *llvm*
 
 ```bash
 ./build.sh
@@ -12,7 +16,11 @@ Currently, this will install a miniconda environment, build gcc and llvm from so
 
 ## Activate dev environments
 
-Activate the miniconda, gcc and llvm environments.
+Activate the environment if it exists:
+
+- miniconda
+- gcc
+- llvm
 
 ```bash
 source ./env.sh
