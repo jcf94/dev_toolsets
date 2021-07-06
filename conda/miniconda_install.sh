@@ -27,6 +27,7 @@ fi
 echo "" > ${BUILT_ENV}
 echo "source ${BUILT_ROOT}/bin/activate" >> ${BUILT_ENV}
 echo "export LD_LIBRARY_PATH=${BUILT_ROOT}/lib:\${LD_LIBRARY_PATH}" >> ${BUILT_ENV}
+echo "export LIBRARY_PATH=${BUILT_ROOT}/lib:\${LIBRARY_PATH}" >> ${BUILT_ENV}
 echo "export PATH=${BUILT_ROOT}/bin:\${PATH}" >> ${BUILT_ENV}
 
 popd
