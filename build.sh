@@ -4,17 +4,35 @@ set -e
 
 FILEPATH=$(cd "$(dirname "$0")"; pwd)
 
-CONDA_ROOT="${FILEPATH}/conda"
+CONDA_ROOT="${FILEPATH}/dev/conda"
 CONDA_INSTALL="${CONDA_ROOT}/miniconda_install.sh"
 CONDA_ENV="${CONDA_ROOT}/miniconda/env.sh"
 
-GCC_ROOT="${FILEPATH}/gcc"
+GCC_ROOT="${FILEPATH}/dev/gcc"
 GCC_BUILD="${GCC_ROOT}/build_gcc.sh"
 GCC_ENV="${GCC_ROOT}/built/env.sh"
 
-LLVM_ROOT="${FILEPATH}/llvm"
+LLVM_ROOT="${FILEPATH}/dev/llvm"
 LLVM_BUILD="${LLVM_ROOT}/build_llvm.sh"
 LLVM_ENV="${LLVM_ROOT}/built/env.sh"
+
+# Install GCC
+
+echo "Process GCC ..."
+
+GCC_STATUS="Already Built"
+GCC_START=`date +%s`
+
+if [[ ! -f ${GCC_ENV} ]]; then
+    pushd ${GCC_ROOT}
+    . ${GCC_BUILD}
+    popd
+    GCC_STATUS="Success"
+fi
+
+GCC_END=`date +%s`
+
+source ${GCC_ENV}
 
 # Install Conda
 
@@ -35,24 +53,6 @@ CONDA_END=`date +%s`
 source ${CONDA_ENV}
 
 conda install cmake -y
-
-# Install GCC
-
-echo "Process GCC ..."
-
-GCC_STATUS="Already Built"
-GCC_START=`date +%s`
-
-if [[ ! -f ${GCC_ENV} ]]; then
-    pushd ${GCC_ROOT}
-    . ${GCC_BUILD}
-    popd
-    GCC_STATUS="Success"
-fi
-
-GCC_END=`date +%s`
-
-source ${GCC_ENV}
 
 # Install LLVM
 

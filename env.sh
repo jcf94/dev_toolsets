@@ -2,9 +2,9 @@
 
 FILEPATH=$(cd "$(dirname "$0")"; pwd)
 
-CONDA_ENV="${FILEPATH}/conda/miniconda/env.sh"
-GCC_ENV="${FILEPATH}/gcc/built/env.sh"
-LLVM_ENV="${FILEPATH}/llvm/built/env.sh"
+CONDA_ENV="${FILEPATH}/dev/conda/miniconda/env.sh"
+GCC_ENV="${FILEPATH}/dev/gcc/built/env.sh"
+LLVM_ENV="${FILEPATH}/dev/llvm/built/env.sh"
 
 # Check Conda
 
