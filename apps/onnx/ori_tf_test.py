@@ -19,3 +19,4 @@ result = sess.run(
 )
 
 np.testing.assert_allclose(result, np.reshape(ref_d, [1, 4, 6]), rtol=1e-6)
+print("Check pass.")

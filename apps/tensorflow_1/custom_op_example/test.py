@@ -28,7 +28,7 @@ with graph.as_default():
     d = tf.matmul(a, b) + c
     with tf.compat.v1.Session(graph=graph) as sess:
         out_d = sess.run(d, {"a:0": data_a, "b:0": data_b, "c:0": data_c})
-        tf_u.save_graph_def(tf.get_default_graph(), "origraph.pb")
+        tf_u.save_graph_def(tf.compat.v1.get_default_graph(), "origraph.pb", overwrite=True)
 
 np.testing.assert_allclose(out_d, ref_d, rtol=1e-6)
 
@@ -61,5 +61,7 @@ with graph.as_default():
     tf.import_graph_def(new_graphdef, name="")
     with tf.compat.v1.Session(graph=graph) as sess:
         new_out_d = sess.run("output:0", {"a:0": data_a, "b:0": data_b, "c:0": data_c})
+        tf_u.save_graph_def(tf.compat.v1.get_default_graph(), "custom.pb", overwrite=True)
 
 np.testing.assert_allclose(new_out_d, ref_d, rtol=1e-6)
+print("Check pass.")

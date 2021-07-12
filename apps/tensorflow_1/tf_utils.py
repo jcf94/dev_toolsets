@@ -1,6 +1,7 @@
 import os
 from typing import Any, Dict, List, Tuple, Union
 
+import google.protobuf.text_format as pb_text_format
 import tensorflow as tf
 import numpy as np
 
@@ -40,6 +41,29 @@ def save_graph_def(
 
 
 ################ Model import ################
+
+
+def load_graph_def(graph_def_file_name: str) -> tf.compat.v1.GraphDef:
+    """
+    Parameters
+    ----------
+    graph_def_file_name : str
+
+    Returns
+    -------
+    g : tf.compat.v1.Graph
+    """
+    gd = tf.compat.v1.GraphDef()
+    try:
+        with tf.compat.v1.gfile.GFile(graph_def_file_name, "r") as f:
+            pb_str = f.read()
+            pb_text_format.Merge(pb_str.encode("utf-8"), gd)
+    except Exception:
+        with tf.compat.v1.gfile.GFile(graph_def_file_name, "rb") as f:
+            pb_str = f.read()
+            gd.ParseFromString(pb_str)
+
+    return gd
 
 
 def load_saved_model(

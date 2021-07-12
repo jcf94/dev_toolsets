@@ -37,10 +37,11 @@ def add_placeholder(
             )
         )
     )
-    new_node.attr["_output_shapes"].CopyFrom(
-        attr_value_pb2.AttrValue(
-            shape=tensor_shape_pb2.TensorShapeProto(
-                dim=[tensor_shape_pb2.TensorShapeProto.Dim(size=d) for d in shape]
-            )
-        )
-    )
+    # This cannot be processed in onnxruntime
+    # new_node.attr["_output_shapes"].CopyFrom(
+    #     attr_value_pb2.AttrValue(
+    #         shape=tensor_shape_pb2.TensorShapeProto(
+    #             dim=[tensor_shape_pb2.TensorShapeProto.Dim(size=d) for d in shape]
+    #         )
+    #     )
+    # )
