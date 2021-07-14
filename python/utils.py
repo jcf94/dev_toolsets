@@ -1,3 +1,4 @@
+from typing import Any, Dict, List, Set
 import threading
 
 class PropagatingThread(threading.Thread):
@@ -34,3 +35,32 @@ class PropagatingThread(threading.Thread):
         if self.exc:
             raise self.exc
         return self.ret
+
+
+def IsEmpty(target: Any) -> bool:
+    """Check if a target is empty.
+
+    Parameters
+    ----------
+    target : Any
+
+    Returns
+    -------
+    bool
+        If the target is empty.
+    """
+    if target is None:
+        return True
+
+    if isinstance(target, (Dict, List, Set)) and len(target) == 0:
+        return True
+
+    try:
+        import numpy as np
+    except Exception:
+        pass
+    else:
+        if isinstance(target, np.ndarray) and target.size == 0:
+            return True
+
+    return bool(target)
