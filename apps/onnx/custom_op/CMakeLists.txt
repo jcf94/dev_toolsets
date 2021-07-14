@@ -1,4 +1,4 @@
-project(onnx_tf_custom_op)
+project(onnx_custom_op)
 cmake_minimum_required(VERSION 3.0)
 
 # Set parameters
@@ -18,6 +18,6 @@ endif(NOT DEFINED ORT_ROOT)
 file(GLOB_RECURSE LIB_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc)
 set(LIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_library(onnx_tf_custom_op SHARED ${LIB_SOURCE})
-target_include_directories(onnx_tf_custom_op PRIVATE ${LIB_INCLUDE_DIR} "${ORT_ROOT}/include/onnxruntime")
-target_link_libraries(onnx_tf_custom_op PRIVATE "${ORT_ROOT}/build/Linux/RelWithDebInfo/libonnxruntime.so")
+add_library(onnx_custom_op SHARED ${LIB_SOURCE})
+target_include_directories(onnx_custom_op PRIVATE ${LIB_INCLUDE_DIR} "${ORT_ROOT}/include/onnxruntime")
+target_link_libraries(onnx_custom_op PRIVATE "${ORT_ROOT}/build/Linux/RelWithDebInfo/libonnxruntime.so")

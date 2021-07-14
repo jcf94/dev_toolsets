@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include <cmath>
+#include <iostream>
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -69,6 +70,8 @@ struct TestCustomOpKernel {
         (*(out + i * shape_B[1] + j)) += (*(C + j));
       }
     }
+
+    std::cout << "In Onnxruntime Custom Op\n";
   }
 
  private:

@@ -11,8 +11,8 @@ class MyModule(nn.Module):
 model = torch.jit.script(MyModule())
 
 print("Model before: ----------")
-print(model.graph)
-print(model.code)
+print(model.forward.graph)
+print(model.forward.code)
 print("------------------------")
 print()
 
@@ -30,13 +30,13 @@ graph(%a, %b, %c):
     return (%r)""", """
 graph(%a, %b, %c):
     %r = CustomOpTest::TestCustomOp(%a, %b, %c)
-    return (%r)""", model.graph)
+    return (%r)""", model.forward.graph)
 
 torch.ops.load_library("./build/libtorch_custom_op.so")
 
 print("Model after: -----------")
-print(model.graph)
-print(model.code)
+print(model.forward.graph)
+print(model.forward.code)
 print("------------------------")
 
 # Save model
@@ -45,7 +45,7 @@ torch.jit.save(model, "./custom.pt")
 # Load model
 new_model = torch.jit.load("./custom.pt")
 
-res1 = new_model.forward(data_a, data_b, data_c)
+res1 = new_model(data_a, data_b, data_c)
 res2 = torch.ops.CustomOpTest.TestCustomOp(data_a, data_b, data_c)
 
 assert torch.allclose(ref, res1)

@@ -18,7 +18,7 @@ import tf_utils as tf_u
 
 _TENSORFLOW_DOMAIN = "test.customop"
 
-onnx_custom_op_library = "./build/libonnx_tf_custom_op.so"
+onnx_custom_op_library = "./build/libonnx_custom_op.so"
 if not os.path.exists(onnx_custom_op_library):
     raise FileNotFoundError("Unable to find '{0}'".format(onnx_custom_op_library))
 
