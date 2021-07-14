@@ -18,7 +18,7 @@ Tensor TestCustomOp(Tensor a, Tensor b, Tensor c) {
 
     Tensor output = at::mm(a, b) + c;
 
-    std::cout << "In custom op\n";
+    std::cout << "[In Pytorch Custom Op.]\n";
 
     return output.clone();
 }

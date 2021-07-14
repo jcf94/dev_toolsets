@@ -41,6 +41,8 @@ class TestCustomOp : public OpKernel {
         (*(d_data + i * b_shape.dim_size(1) + j)) += (*(c_data + j));
       }
     }
+
+    std::cout << "[In TensorFlow Custom Op.]\n";
   }
 };
 

@@ -71,7 +71,7 @@ struct TestCustomOpKernel {
       }
     }
 
-    std::cout << "In Onnxruntime Custom Op\n";
+    std::cout << "[In Onnxruntime Custom Op.]\n";
   }
 
  private:

@@ -3,14 +3,14 @@ import onnxruntime as onnxrt
 
 import numpy as np
 
-torch.ops.load_library("../../pytorch/custom_op_example/build/libtorch_custom_op.so")
-model = torch.jit.load("../../pytorch/custom_op_example/custom.pt")
-
 # Numpy reference
 data_a = np.random.random([4, 5]).astype(np.float32)
 data_b = np.random.random([5, 6]).astype(np.float32)
 data_c = np.random.random([6]).astype(np.float32)
 ref_d = np.dot(data_a, data_b) + data_c
+
+torch.ops.load_library("../../pytorch/custom_op_example/build/libtorch_custom_op.so")
+model = torch.jit.load("../../pytorch/custom_op_example/custom.pt")
 
 torch_a = torch.from_numpy(data_a)
 torch_b = torch.from_numpy(data_b)
@@ -34,7 +34,6 @@ torch.onnx.export(
     "./pytorch_custom_op.onnx",
     example_outputs=ref,
     custom_opsets={"test.customop": 8},
-    enable_onnx_checker=False,
     input_names=['a', 'b', 'c'],
     output_names=['output'],
 )
