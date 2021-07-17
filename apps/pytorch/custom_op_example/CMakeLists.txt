@@ -10,7 +10,17 @@ add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
 # Set tf lib
 
 if(NOT DEFINED TORCH_ROOT)
-  message(FATAL_ERROR "TORCH_ROOT not set")
+  find_package(PythonInterp REQUIRED)
+  execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}" "-c" "from __future__ import print_function\nimport torch\nimport os\nprint(os.path.dirname(torch.__file__), end = '')"
+    RESULT_VARIABLE CMD_RESULT
+    OUTPUT_VARIABLE OUT
+    ERROR_VARIABLE ERR)
+  if(NOT ${CMD_RESULT} EQUAL "0")
+    message(FATAL_ERROR "TORCH_ROOT not set")
+  else(NOT ${CMD_RESULT} EQUAL "0")
+    set(TORCH_ROOT "${OUT}")
+  endif(NOT ${CMD_RESULT} EQUAL "0")
 endif(NOT DEFINED TORCH_ROOT)
 
 set(TORCH_INCLUDE "${TORCH_ROOT}/include")
