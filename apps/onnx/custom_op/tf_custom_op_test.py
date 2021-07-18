@@ -9,7 +9,7 @@ import tf2onnx
 from onnx import helper
 
 tf1_root = os.path.normpath(
-    os.path.join(Path(__file__).absolute(), "..", "..", "..", "tensorflow_1")
+    os.path.join(Path(__file__).absolute(), "..", "..", "..", "tensorflow")
 )
 sys.path.append(tf1_root)
 
@@ -24,13 +24,13 @@ if not os.path.exists(onnx_custom_op_library):
 
 this = os.path.dirname(__file__)
 tf_custom_op_model = os.path.join(
-    this, "..", "..", "tensorflow_1", "custom_op_example", "custom.pb"
+    this, "..", "..", "tensorflow", "custom_op_example", "custom.pb"
 )
 if not os.path.exists(tf_custom_op_model):
     raise FileNotFoundError("Unable to find '{0}'".format(tf_custom_op_model))
 
 tf_custom_op_library = os.path.join(
-    this, "..", "..", "tensorflow_1", "custom_op_example", "build", "libtf_custom_op.so"
+    this, "..", "..", "tensorflow", "custom_op_example", "build", "libtf_custom_op.so"
 )
 if not os.path.exists(tf_custom_op_library):
     raise FileNotFoundError("Unable to find '{0}'".format(tf_custom_op_library))
