@@ -5,6 +5,7 @@ FILEPATH=$(cd "$(dirname "$0")"; pwd)
 CONDA_ENV="${FILEPATH}/dev/conda/miniconda/env.sh"
 GCC_ENV="${FILEPATH}/dev/gcc/built/env.sh"
 LLVM_ENV="${FILEPATH}/dev/llvm/built/env.sh"
+CUDA_ENV="${FILEPATH}/dev/cuda/cuda/env.sh"
 
 # Check Conda
 
@@ -31,4 +32,13 @@ if [[ -f ${LLVM_ENV} ]]; then
     source ${LLVM_ENV}
 else
     echo "LLVM env  [not found]."
+fi
+
+# Check CUDA
+
+if [[ -f ${CUDA_ENV} ]]; then
+    echo "CUDA env  [found]. Activate."
+    source ${CUDA_ENV}
+else
+    echo "CUDA env  [not found]."
 fi
