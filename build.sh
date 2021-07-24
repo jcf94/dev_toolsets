@@ -51,8 +51,6 @@ function usage() {
 
 options=$(getopt -l "help,all,onednn,cuda:,no-conda,no-gcc,no-llvm" -o "haoc:" -a -- "$@")
 
-echo "$options"
-
 eval set -- "$options"
 
 while true; do
@@ -75,7 +73,6 @@ while true; do
             ;;
         -c|--cuda)
             CUDA_ON="1"
-            echo "${2}"
             if [[ "${2}" == -* ]]; then
                 shift
             else
@@ -103,7 +100,7 @@ done
 
 ####################################### Process build & install
 
-# Install GCC
+# Build GCC
 GCC_START=`date +%s`
 if [[ "${GCC_ON}" == "1" ]]; then
     echo "Process GCC ..."
@@ -113,6 +110,7 @@ if [[ "${GCC_ON}" == "1" ]]; then
     if [[ ! -f ${GCC_ENV} ]]; then
         pushd ${GCC_ROOT}
         . ${GCC_BUILD}
+        set +x
         popd
         GCC_STATUS="Success"
     fi
@@ -133,6 +131,7 @@ if [[ "${CONDA_ON}" == "1" ]]; then
     if [[ ! -f ${CONDA_ENV} ]]; then
         pushd ${CONDA_ROOT}
         . ${CONDA_INSTALL}
+        set +x
         popd
         CONDA_STATUS="Success"
     fi
@@ -145,7 +144,7 @@ else
 fi
 CONDA_END=`date +%s`
 
-# Install LLVM
+# Build LLVM
 LLVM_START=`date +%s`
 if [[ "${LLVM_ON}" == "1" ]]; then
     echo "Process LLVM ..."
@@ -155,21 +154,57 @@ if [[ "${LLVM_ON}" == "1" ]]; then
     if [[ ! -f ${LLVM_ENV} ]]; then
         pushd ${LLVM_ROOT}
         . ${LLVM_BUILD}
+        set +x
         popd
         LLVM_STATUS="Success"
     fi
-
 else
     echo "Skip LLVM."
 fi
 LLVM_END=`date +%s`
 
+# Build OneDNN
+ONEDNN_START=`date +%s`
+if [[ "${ONEDNN_ON}" == "1" ]]; then
+    echo "Process OneDNN ..."
 
+    ONEDNN_STATUS="Already Built"
+
+    if [[ ! -f ${ONEDNN_ENV} ]]; then
+        pushd ${ONEDNN_ROOT}
+        . ${ONEDNN_BUILD}
+        set +x
+        popd
+        ONEDNN_STATUS="Success"
+    fi
+else
+    echo "Skip OneDNN."
+fi
+ONEDNN_END=`date +%s`
+
+# Install CUDA
+CUDA_START=`date +%s`
+if [[ "${CUDA_ON}" == "1" ]]; then
+    echo "Process CUDA ..."
+
+    CUDA_STATUS="Already Built"
+
+    if [[ ! -f ${CUDA_ENV} ]]; then
+        pushd ${CUDA_ROOT}
+        . ${CUDA_INSTALL} -v ${CUDA_VERSION}
+        set +x
+        popd
+        CUDA_STATUS="Success"
+    fi
+else
+    echo "Skip OneDNN."
+fi
+CUDA_END=`date +%s`
 
 ####################################### Print Results
-
-set +x
 
 echo -e "Conda\t[${CONDA_STATUS}]\tCosts: $((CONDA_END-CONDA_START)) s"
 echo -e "GCC\t[${GCC_STATUS}]\tCosts: $((GCC_END-GCC_START)) s"
 echo -e "LLVM\t[${LLVM_STATUS}]\tCosts: $((LLVM_END-LLVM_START)) s"
+echo -e "OneDNN\t[${ONEDNN_STATUS}]\tCosts: $((ONEDNN_END-ONEDNN_START)) s"
+echo -e "CUDA\t[${CUDA_STATUS}]\tCosts: $((CUDA_END-CUDA_START)) s"
