@@ -4,13 +4,13 @@ set -e
 
 FILEPATH=$(cd "$(dirname "$0")"; pwd)
 
-CONDA_ROOT="${FILEPATH}/dev/conda"
-CONDA_INSTALL="${CONDA_ROOT}/miniconda_install.sh"
-CONDA_ENV="${CONDA_ROOT}/miniconda/env.sh"
-
 GCC_ROOT="${FILEPATH}/dev/gcc"
 GCC_BUILD="${GCC_ROOT}/build_gcc.sh"
 GCC_ENV="${GCC_ROOT}/built/env.sh"
+
+CONDA_ROOT="${FILEPATH}/dev/conda"
+CONDA_INSTALL="${CONDA_ROOT}/miniconda_install.sh"
+CONDA_ENV="${CONDA_ROOT}/miniconda/env.sh"
 
 LLVM_ROOT="${FILEPATH}/dev/llvm"
 LLVM_BUILD="${LLVM_ROOT}/build_llvm.sh"
@@ -203,8 +203,8 @@ CUDA_END=`date +%s`
 
 ####################################### Print Results
 
-echo -e "Conda\t[${CONDA_STATUS}]\tCosts: $((CONDA_END-CONDA_START)) s"
 echo -e "GCC\t[${GCC_STATUS}]\tCosts: $((GCC_END-GCC_START)) s"
+echo -e "Conda\t[${CONDA_STATUS}]\tCosts: $((CONDA_END-CONDA_START)) s"
 echo -e "LLVM\t[${LLVM_STATUS}]\tCosts: $((LLVM_END-LLVM_START)) s"
 echo -e "OneDNN\t[${ONEDNN_STATUS}]\tCosts: $((ONEDNN_END-ONEDNN_START)) s"
 echo -e "CUDA\t[${CUDA_STATUS}]\tCosts: $((CUDA_END-CUDA_START)) s"
