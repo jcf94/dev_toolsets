@@ -6,11 +6,11 @@ Some dev tool scripts.
 
 Currently, this will:
 
-- Build *gcc*
-- Install *miniconda*
-- Build *llvm*
-- Build *OneDNN* [Optional]
-- Install *CUDA* [Optional]
+- Build **GCC**
+- Install **Miniconda3**
+- Build **LLVM**
+- Build **OneDNN** [Optional]
+- Install **CUDA** [Optional]
 
 ```bash
 ./build.sh
@@ -20,11 +20,11 @@ Currently, this will:
 
 Activate the environment if it exists:
 
-- gcc
-- miniconda
-- llvm
-- onednn
-- cuda
+- **GCC**
+- **Miniconda3**
+- **LLVM**
+- **OneDNN**
+- **CUDA**
 
 ```bash
 source ./env.sh
