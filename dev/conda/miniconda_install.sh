@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe
+set -e
 
 MINICONDA_ROOT_PATH=$(cd "$(dirname "$0")"; pwd)
 
@@ -9,7 +9,16 @@ BUILT_ENV="${BUILT_ROOT}/env.sh"
 
 pushd ${MINICONDA_ROOT_PATH}
 
-MINICONDA_SH="Miniconda3-latest-Linux-x86_64.sh"
+OS=`uname -s`
+if [[ "${OS}" == "Linux" ]]; then
+    MINICONDA_SH="Miniconda3-latest-Linux-x86_64.sh"
+elif [[ "${OS}" == "Darwin" ]]; then
+    MINICONDA_SH="Miniconda3-latest-MacOSX-x86_64.sh"
+else
+    echo "Not supported system."
+    uanme -a
+    exit -1
+fi
 MINICONDA_URL="https://repo.anaconda.com/miniconda/${MINICONDA_SH}"
 
 if [[ ! -f ${MINICONDA_SH} ]]; then
