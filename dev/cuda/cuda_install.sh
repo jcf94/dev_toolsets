@@ -8,6 +8,9 @@ CUDA_ROOT_PATH=$(cd "$(dirname "$0")"; pwd)
 
 CUDA_VERSION="11.4.0"
 DRIVER_VERSION="470.42.01"
+CUDNN_TAR=""
+TRT_DIR=""
+TRT_TAR=""
 
 BUILT_ROOT="${CUDA_ROOT_PATH}/cuda"
 BUILT_ENV="${BUILT_ROOT}/env.sh"
@@ -34,10 +37,20 @@ do
                 "11.3")
                     CUDA_VERSION="11.3.1"
                     DRIVER_VERSION="465.19.01"
+                    # CUDNN 8.2.1
+                    # TRT 8.0.1.6
+                    CUDNN_TAR="cudnn-11.3-linux-x64-v8.2.1.32.tgz"
+                    TRT_DIR="TensorRT-8.0.1.6"
+                    TRT_TAR="${TRT_DIR}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz"
                     ;;
                 "11.2")
                     CUDA_VERSION="11.2.2"
                     DRIVER_VERSION="460.32.03"
+                    # CUDNN 8.2.1
+                    # TRT 8.0.1.6
+                    CUDNN_TAR="cudnn-11.3-linux-x64-v8.2.1.32.tgz"
+                    TRT_DIR="TensorRT-8.0.1.6"
+                    TRT_TAR="${TRT_DIR}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz"
                     ;;
                 "11.1")
                     CUDA_VERSION="11.1.1"
@@ -100,17 +113,43 @@ fi
 if [[ ${OVERRIDE_BUILT} == "1" ]]; then
     echo "Extracting and installing CUDA files ..."
     ./${CUDA_SH} --installpath="${BUILT_ROOT}" --silent --toolkit --override
+
+    if [[ ${CUDNN_TAR} != "" && -f ${CUDNN_TAR} ]]; then
+        echo "CUDNN_TAR: ${CUDNN_TAR} find. Extracting ..."
+        # extract to ./cuda (auto merged to ${BUILT_ROOT})
+        tar xzvf ${CUDNN_TAR}
+    else
+        echo "No CUDNN_TAR set/find in dir, skip cuDNN."
+    fi
+
+    if [[ ${TRT_TAR} != "" && -f ${TRT_TAR} ]]; then
+        echo "TRT_TAR: ${TRT_TAR} find. Extracting ..."
+        # Extract to ${BUILT_ROOT}/${TRT_DIR}
+        tar xzvf ${TRT_TAR} -C ${BUILT_ROOT}
+    else
+        echo "No TRT_TAR set/find in dir, skip TensorRT."
+    fi
 fi
 
 ####################################### Export env source file
+
+NEW_PATH="${BUILT_ROOT}/bin"
+NEW_LIBRARY_PATH="${BUILT_ROOT}/lib64"
+NEW_LD_LIBRARY_PATH="${BUILT_ROOT}/lib64"
+
+if [[ ${TRT_TAR} != "" ]]; then
+    NEW_PATH="${BUILT_ROOT}/${TRT_DIR}/bin:${NEW_PATH}"
+    NEW_LIBRARY_PATH="${BUILT_ROOT}/${TRT_DIR}/lib:${NEW_LIBRARY_PATH}"
+    NEW_LD_LIBRARY_PATH="${BUILT_ROOT}/${TRT_DIR}/lib:${NEW_LD_LIBRARY_PATH}"
+fi
 
 if [[ -f ${BUILT_ENV} ]]; then
     rm -rf ${BUILT_ENV}
 fi
 echo "" > ${BUILT_ENV}
-echo "export LD_LIBRARY_PATH=${BUILT_ROOT}/lib64:\${LD_LIBRARY_PATH}" >> ${BUILT_ENV}
-echo "export LIBRARY_PATH=${BUILT_ROOT}/lib64:\${LIBRARY_PATH}" >> ${BUILT_ENV}
-echo "export PATH=${BUILT_ROOT}/bin:\${PATH}" >> ${BUILT_ENV}
+echo "export LD_LIBRARY_PATH=${NEW_LD_LIBRARY_PATH}:\${LD_LIBRARY_PATH}" >> ${BUILT_ENV}
+echo "export LIBRARY_PATH=${NEW_LIBRARY_PATH}:\${LIBRARY_PATH}" >> ${BUILT_ENV}
+echo "export PATH=${NEW_PATH}:\${PATH}" >> ${BUILT_ENV}
 
 popd
 
