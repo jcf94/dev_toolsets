@@ -1,4 +1,5 @@
 *.run
 *.tgz
+*.tar.gz
 
 cuda
