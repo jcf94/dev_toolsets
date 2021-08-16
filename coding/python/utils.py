@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Set
+from typing import Any, Callable, Dict, Iterable, List, Mapping, Set, Union
 import threading
 
 class PropagatingThread(threading.Thread):
@@ -40,11 +40,64 @@ class PropagatingThread(threading.Thread):
         except BaseException as e:
             self.exc = e
 
-    def join(self, timeout: Union[float, None] = None) -> None:
+    def join(self, timeout: Union[float, None] = None) -> Any:
         super(PropagatingThread, self).join(timeout=timeout)
         if self.exc:
             raise self.exc
         return self.ret
+
+
+class PropagatingProcess(multiprocessing.Process):
+    """
+    Usage:
+        num_proceses = 4
+        processes = []
+        for i in range(num_proceses):
+            processes.append(PropagatingProcess(
+                target=process_run,
+            ))
+        print("Test Start with num_proceses: %d" % (num_proceses))
+        for process in processes:
+            process.start()
+        res = []
+        for process in processes:
+            res.append(process.join())
+    """
+
+    def __init__(
+        self,
+        group: None = None,
+        target: Union[Callable[..., Any], None] = None,
+        name: Union[str, None] = None,
+        args: Tuple[Any, ...] = (),
+        kwargs: Union[Mapping[str, Any], None] = None,
+        *,
+        daemon: Union[bool, None] = None,
+    ) -> None:
+        if kwargs is None or not "_queue" in kwargs:
+            self.queue = multiprocessing.Queue()
+            kwargs["_queue"] = self.queue
+        super(PropagatingProcess, self).__init__(
+            group=group, target=target, name=name, args=args, kwargs=kwargs, daemon=daemon
+        )
+
+    def run(self) -> None:
+        assert self._kwargs is not None
+        assert "_queue" in self._kwargs
+        queue = self._kwargs.pop("_queue")
+
+        try:
+            ret = self._target(*self._args, **self._kwargs)
+            queue.put(ret)
+        except BaseException as e:
+            queue.put(e)
+
+    def join(self, timeout: Union[float, None] = None) -> Any:
+        super(PropagatingProcess, self).join(timeout=timeout)
+        ret = self.queue.get()
+        if ret is not None and isinstance(ret, Exception):
+            raise ret
+        return ret
 
 
 def IsEmpty(target: Any) -> bool:
