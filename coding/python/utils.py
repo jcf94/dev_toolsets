@@ -17,21 +17,31 @@ class PropagatingThread(threading.Thread):
         for thread in threads:
             res.append(thread.join())
     """
-    def __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None):
+
+    def __init__(
+        self,
+        group: None = None,
+        target: Union[Callable[..., Any], None] = None,
+        name: Union[str, None] = None,
+        args: Iterable[Any] = (),
+        kwargs: Union[Mapping[str, Any], None] = None,
+        *,
+        daemon: Union[bool, None] = None,
+    ) -> None:
         super(PropagatingThread, self).__init__(
-            group=group, target=target, name=name, args=args, kwargs=kwargs, daemon=daemon,
+            group=group, target=target, name=name, args=args, kwargs=kwargs, daemon=daemon
         )
         self.exc = None
         self.ret = None
 
-    def run(self):
+    def run(self) -> None:
         try:
             self.ret = self._target(*self._args, **self._kwargs)
         except BaseException as e:
             self.exc = e
 
-    def join(self):
-        super(PropagatingThread, self).join()
+    def join(self, timeout: Union[float, None] = None) -> None:
+        super(PropagatingThread, self).join(timeout=timeout)
         if self.exc:
             raise self.exc
         return self.ret
