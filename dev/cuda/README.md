@@ -7,6 +7,7 @@
 |10.2.89, 11.3.1|8.2.1|8.0.1.6|
 |11.2.2|8.1.1|7.2.3|
 |9.0, 10.0, 10.1|7.6.5|6.0.1|
+|9.0, 10.0, 10.1|7.5.0|5.1.5|
 
 ## CUDA
 
@@ -48,9 +49,11 @@ Should login before download.
 |7.2.3|10.2, 11.[0-2]|8.1|
 |7.2.2|10.2, 11.[0-2]|8.0|
 |6.0.1|9.0, 10.[0-2]|7.6.5|
+|5.1.5|9.0, 10.[0-1]|7.5.0|
 
 Support matrix:
 - [TRT 8.0.x](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-801/support-matrix/index.html)
 - [TRT 7.2.3](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-723/support-matrix/index.html)
 - [TRT 7.2.2](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-722/support-matrix/index.html)
 - [TRT 6.0.1](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-601/tensorrt-support-matrix/index.html)
+- [TRT 5.1.5](https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-515/tensorrt-support-matrix/index.html)
