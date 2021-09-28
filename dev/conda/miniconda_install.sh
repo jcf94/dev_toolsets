@@ -11,7 +11,8 @@ pushd ${MINICONDA_ROOT_PATH}
 
 OS=`uname -s`
 if [[ "${OS}" == "Linux" ]]; then
-    MINICONDA_SH="Miniconda3-latest-Linux-x86_64.sh"
+    ARCH=`uname -m`
+    MINICONDA_SH="Miniconda3-latest-Linux-${ARCH}.sh"
 elif [[ "${OS}" == "Darwin" ]]; then
     MINICONDA_SH="Miniconda3-latest-MacOSX-x86_64.sh"
 else
