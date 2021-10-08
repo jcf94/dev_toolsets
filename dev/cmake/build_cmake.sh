@@ -44,8 +44,6 @@ fi
 
 # Build Cmake
 
-pushd ${BUILT_ROOT}
-
 pushd ${CMAKE_DIR}
 ./configure --prefix=${BUILT_CMAKE}
 make -j ${NUM_CORES}
@@ -58,7 +56,5 @@ if [[ -f ${BUILT_ENV} ]]; then
 fi
 echo "" > ${BUILT_ENV}
 echo "export PATH=${BUILT_CMAKE}/bin:\${PATH}" >> ${BUILT_ENV}
-
-popd
 
 echo "Build success!"
