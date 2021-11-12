@@ -84,6 +84,8 @@ do
     esac
 done
 
+BUILT_ROOT_LN="${BUILT_ROOT}_${CUDA_VERSION}"
+
 echo "Install CUDA with version: ${CUDA_VERSION} driver: ${DRIVER_VERSION}"
 
 ####################################### Download and prepare resources
@@ -103,6 +105,7 @@ chmod +x ${CUDA_SH}
 if [[ -d ${BUILT_ROOT} ]]; then
     if [[ ${OVERRIDE_BUILT} == "1" ]]; then
         rm -rf ${BUILT_ROOT}
+        rm -rf ${BUILT_ROOT_LN}
     else
         echo "CUDA already installed in ${BUILT_ROOT}, set -f to override it."
     fi
@@ -132,6 +135,10 @@ if [[ ${OVERRIDE_BUILT} == "1" ]]; then
 fi
 
 ####################################### Export env source file
+
+# Add cuda version to cuda root dir & make a soft link to it
+mv "${BUILT_ROOT}" "${BUILT_ROOT_LN}"
+ln -s -f "${BUILT_ROOT_LN}" "${BUILT_ROOT}"
 
 NEW_PATH="${BUILT_ROOT}/bin"
 NEW_LIBRARY_PATH="${BUILT_ROOT}/lib64"
