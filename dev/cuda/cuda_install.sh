@@ -47,10 +47,10 @@ do
                     CUDA_VERSION="11.2.2"
                     DRIVER_VERSION="460.32.03"
                     # CUDNN 8.2.1
-                    # TRT 8.0.1.6
+                    # TRT 8.2.2.1
                     CUDNN_TAR="cudnn-11.3-linux-x64-v8.2.1.32.tgz"
-                    TRT_DIR="TensorRT-8.0.1.6"
-                    TRT_TAR="${TRT_DIR}.Linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz"
+                    TRT_DIR="TensorRT-8.2.2.1"
+                    TRT_TAR="${TRT_DIR}.Linux.x86_64-gnu.cuda-11.4.cudnn8.2.tar.gz"
                     ;;
                 "11.1")
                     CUDA_VERSION="11.1.1"
